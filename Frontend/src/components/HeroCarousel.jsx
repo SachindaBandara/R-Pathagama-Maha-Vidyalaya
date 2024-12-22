@@ -2,7 +2,7 @@ import "react";
 import Slider from "react-slick";
 import Image1 from "../assets/ImageCarousel/feliphe-schiarolli-hes6nUC1MVc-unsplash.jpg";
 import Image2 from "../assets/ImageCarousel/jeffrey-hamilton-jrRe6er0pY0-unsplash.jpg";
-import Image3 from "../assets/ImageCarousel/santi-vedri-O5EMzfdxedg-unsplash (1).jpg";
+import Image3 from "../assets/ImageCarousel/jeswin-thomas--hgJu2ykh4E-unsplash.jpg";
 import Logo from "../assets/SchoolLogos/School_logo.png";
 
 const HeroImageCarousel = () => {
