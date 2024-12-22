@@ -31,7 +31,9 @@ const Header = () => {
               <li><Link to="/about" className="hover:text-yellow-500">About Us</Link></li>
               <li><Link to="/academics" className="hover:text-yellow-500">Academics</Link></li>
               <li><Link to="/news" className="hover:text-yellow-500">News</Link></li>
+              <li><Link to="/gallery" className="hover:text-yellow-500">Gallery</Link></li>
               <li><Link to="/contact" className="hover:text-yellow-500">Contact Us</Link></li>
+
             </ul>
 
             {/* Mobile Menu Button */}
