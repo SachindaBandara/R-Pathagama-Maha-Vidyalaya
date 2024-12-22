@@ -1,12 +1,13 @@
-import 'react'
-import Body from './Body'
+import Body from './Body';
+import HeroCarousel from './HeroCarousel';
 
 const Home = () => {
   return (
-    <div>
-      <Body/>
+    <div className="font-inter">
+     <HeroCarousel/>
+      <Body />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
