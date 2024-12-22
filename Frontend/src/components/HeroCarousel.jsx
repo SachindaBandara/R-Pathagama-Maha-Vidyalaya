@@ -9,11 +9,11 @@ const HeroImageCarousel = () => {
   const settings = {
     dots: false, // Disable dots for navigation
     infinite: true, // Infinite scrolling
-    speed: 1000, // Transition speed
+    speed: 2000, // Transition speed
     slidesToShow: 1, // Show one image at a time
     slidesToScroll: 1, // Scroll one image at a time
     autoplay: true,
-    autoplaySpeed: 3000, // Speed for autoplay in milliseconds
+    autoplaySpeed: 4000, // Speed for autoplay in milliseconds
     cssEase: "linear", // Smooth animation
     arrows: false, // Remove navigation arrows
   };
@@ -36,8 +36,7 @@ const HeroImageCarousel = () => {
         </h1>
         {/* Paragraph */}
         <p className="text-white mt-3 font-thin max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl mx-auto text-center px-4 sm:px-6 md:px-8">
-          where we nurture young minds
-          and guide them toward a brighter future with our dedicated faculty
+          where we nurture young minds and guide them toward a brighter future with our dedicated faculty
           and excellent facilities.
         </p>
       </div>
@@ -47,7 +46,7 @@ const HeroImageCarousel = () => {
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
-            <div className="relative h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px]">
+            <div className="relative h-[350px] sm:h-[450px] md:h-[550px] lg:h-[600px]">
               {/* Background Image */}
               <div
                 className="h-full bg-cover bg-center"
