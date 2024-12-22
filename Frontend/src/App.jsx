@@ -6,6 +6,7 @@ import About from './components/About';
 import Footer from './components/Footer';
 import Academics from './components/Academics';
 import News from './components/News';
+import ContactUs from './components/ContactUs';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/about' element={<About />} />
         <Route path='/academics' element={<Academics />} />
         <Route path='/news' element={<News />} />
+        <Route path='/contact' element={<ContactUs />} />
       </Routes>
       <Footer />
     </BrowserRouter>
