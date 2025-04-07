@@ -16,6 +16,9 @@ const Login = ({ setIsLoggedIn }) => {
   const [rememberUsername, setRememberUsername] = useState(false);
   const navigate = useNavigate();
 
+  // Get the API URL from environment variables
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // Load saved username from localStorage on component mount
   useEffect(() => {
     const savedUsername = localStorage.getItem('rememberedUsername');
@@ -53,7 +56,7 @@ const Login = ({ setIsLoggedIn }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/login', 
+        `${API_URL}/auth/login`, 
         formData, 
         { 
           withCredentials: true,

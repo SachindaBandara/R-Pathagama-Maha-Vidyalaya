@@ -19,6 +19,9 @@ const CreateNotice = () => {
   const itemsPerPage = 5;
   const navigate = useNavigate();
 
+  // Get the API URL from environment variables
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     fetchNotices();
   }, []);
@@ -30,7 +33,7 @@ const CreateNotice = () => {
 
   const fetchNotices = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/notices", {
+      const response = await axios.get(`${API_URL}/notices`, {
         withCredentials: true
       });
       
@@ -53,14 +56,14 @@ const CreateNotice = () => {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/notices/${editId}`, {
+        await axios.put(`${API_URL}/notices/${editId}`, {
           title,
           deadline,
           pdfLink,
         });
         toast.success("Notice updated successfully!");
       } else {
-        await axios.post("http://localhost:5000/api/notices", {
+        await axios.post(`${API_URL}/notices`, {
           title,
           deadline,
           pdfLink,
@@ -89,7 +92,7 @@ const CreateNotice = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/notices/${id}`);
+      await axios.delete(`${API_URL}/notices/${id}`);
       toast.success("Notice deleted successfully!");
       fetchNotices();
     } catch (error) {

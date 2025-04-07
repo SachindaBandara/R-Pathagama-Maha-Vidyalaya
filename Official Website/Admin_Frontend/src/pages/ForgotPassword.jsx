@@ -7,12 +7,15 @@ const ForgotPassword = () => {
   const [adminNumber, setAdminNumber] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Get the API URL from environment variables
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/forgot-password", { adminNumber });
+      const response = await axios.post(`${API_URL}/auth/forgot-password`, { adminNumber });
       
       toast.success(response.data.message, {
         position: "top-right",

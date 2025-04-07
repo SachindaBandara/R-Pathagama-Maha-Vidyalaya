@@ -32,7 +32,7 @@ const Notices = () => {
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const response = await axios.get(`${API_URL}notices`);
+        const response = await axios.get(`${API_URL}/notices`);
         setOriginalNotices(response.data);
         if (language === 'en') setNotices(response.data);
       } catch (error) {

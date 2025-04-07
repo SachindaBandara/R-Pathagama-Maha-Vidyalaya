@@ -15,6 +15,9 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  // Get the API URL from environment variables
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -38,7 +41,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
+      const response = await axios.post(`${API_URL}/auth/signup`, formData);
       
       if (response.status === 201) {
         toast.success('Signup successful! Redirecting to login...', {

@@ -12,7 +12,7 @@ const EventDetailsPage = () => {
 
   const fetchEventDetails = async () => {
     try {
-      const res = await axios.get(`${API_URL}events/${eventId}`);
+      const res = await axios.get(`${API_URL}/events/${eventId}`);
       setEvent(res.data);
     } catch (err) {
       console.error(err);

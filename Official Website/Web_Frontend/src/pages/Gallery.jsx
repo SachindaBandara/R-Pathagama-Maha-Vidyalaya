@@ -23,7 +23,7 @@ const Gallery = () => {
   // Fetch events from the API
   const fetchEvents = async () => {
     try {
-      const res = await axios.get(`${API_URL}events`);
+      const res = await axios.get(`${API_URL}/events`);
       setOriginalEvents(res.data);
       setEvents(res.data);
     } catch (err) {

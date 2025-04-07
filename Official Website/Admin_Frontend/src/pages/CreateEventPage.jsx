@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Edit, Trash2, Plus, X, Calendar, Image as ImageIcon } from "lucide-react";
+import {
+  Edit,
+  Trash2,
+  Plus,
+  X,
+  Calendar,
+  Image as ImageIcon,
+} from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +27,9 @@ const CreateEventPage = () => {
   const itemsPerPage = 5;
   const navigate = useNavigate();
 
+  // Get the API URL from environment variables
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -31,7 +41,7 @@ const CreateEventPage = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/events");
+      const response = await axios.get(`${API_URL}/events`);
       // Reverse the events array so that newly created events are displayed first
       setEvents(response.data.reverse());
     } catch (error) {
@@ -59,12 +69,12 @@ const CreateEventPage = () => {
       });
 
       if (editId) {
-        await axios.put(`http://localhost:5000/api/events/${editId}`, formData, {
+        await axios.put(`${API_URL}/events/${editId}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Event updated successfully!");
       } else {
-        await axios.post("http://localhost:5000/api/events", formData, {
+        await axios.post(`${API_URL}/events`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Event created successfully!");
@@ -93,7 +103,7 @@ const CreateEventPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/events/${id}`);
+      await axios.delete(`${API_URL}/events/${id}`);
       toast.success("Event deleted successfully!");
       fetchEvents();
     } catch (error) {
@@ -105,7 +115,10 @@ const CreateEventPage = () => {
   // Filter events based on search term and selected month
   const filteredEvents = events.filter((event) => {
     // Filter by search term (event name)
-    if (searchTerm && !event.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+    if (
+      searchTerm &&
+      !event.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
       return false;
     }
     // Filter by month if a month is selected
@@ -133,7 +146,9 @@ const CreateEventPage = () => {
         {/* Header */}
         <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-red-800">Event Management</h1>
+            <h1 className="text-3xl font-bold text-red-800">
+              Event Management
+            </h1>
             <p className="text-gray-600">Manage your events seamlessly</p>
           </div>
           <motion.button
@@ -209,7 +224,9 @@ const CreateEventPage = () => {
             <div className="text-yellow-500 mb-4">
               <ImageIcon size={48} strokeWidth={1.5} />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">No events found</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              No events found
+            </h3>
             <p className="text-gray-500">Create your first event</p>
           </motion.div>
         ) : (
@@ -302,7 +319,9 @@ const CreateEventPage = () => {
             </span>
             <motion.button
               whileTap={{ scale: 0.95 }}
-              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+              }
               disabled={currentPage === totalPages}
               className="px-4 py-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-50"
             >
@@ -368,7 +387,6 @@ const CreateEventPage = () => {
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl"
                         required
                       />
-                      
                     </div>
                   </div>
                   <div>
@@ -382,7 +400,10 @@ const CreateEventPage = () => {
                         onChange={handleImageChange}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl"
                       />
-                      <ImageIcon className="absolute right-3 top-3 text-gray-400" size={18} />
+                      <ImageIcon
+                        className="absolute right-3 top-3 text-gray-400"
+                        size={18}
+                      />
                     </div>
                   </div>
                   {previewImages.length > 0 && (
