@@ -1,1 +1,1 @@
-# R-Pathagama-Maha-Vidyalaya-Website
+# R/Pathagama Maha Vidyalaya Website

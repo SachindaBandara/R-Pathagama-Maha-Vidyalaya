@@ -1,0 +1,29 @@
+@import "/node_modules/slick-carousel/slick/slick.css";
+@import "/node_modules/slick-carousel/slick/slick-theme.css";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala&family=Noto+Sans+Tamil&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply bg-red-custom text-yellow-custom font-kumbh px-8 rounded-2xl w-36 h-12 transition-all duration-200 ease-in-out hover:text-red-custom hover:bg-yellow-custom focus:ring-2 focus:ring-yellow-300;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-700;
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  body {
+    font-family: 'Inter', 'Noto Sans Sinhala', 'Noto Sans Tamil', sans-serif;
+  }
