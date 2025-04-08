@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { ImageIcon } from "lucide-react";
+import { FileText } from "lucide-react";
 
-const EmptyState = () => {
+const EmptyState = ({ icon, title, message }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -9,12 +9,12 @@ const EmptyState = () => {
       className="p-12 bg-white rounded-sm border-2 border-dashed border-gray-200 text-center"
     >
       <div className="text-yellow-500 mb-4">
-        <ImageIcon size={48} strokeWidth={1.5} />
+        {icon || <FileText size={48} strokeWidth={1.5} />}
       </div>
       <h3 className="text-xl font-semibold text-gray-800 mb-2">
-        No events found
+        {title || "No items found"}
       </h3>
-      <p className="text-gray-500">Create your first event</p>
+      <p className="text-gray-500">{message || "Create your first item"}</p>
     </motion.div>
   );
 };

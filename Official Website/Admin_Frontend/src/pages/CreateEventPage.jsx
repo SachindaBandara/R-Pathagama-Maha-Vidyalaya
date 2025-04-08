@@ -6,9 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 import EventHeader from "../components/events/EventHeader";
 import SearchFilterBar from "../components/events/SearchFilterBar";
 import EventsTable from "../components/events/EventsTable";
-import EmptyState from "../components/events/EmptyState";
-import Pagination from "../components/events/Pagination";
+import EmptyState from "../components/EmptyState";
+import Pagination from "../components/Pagination";
 import EventForm from "../components/events/EventForm";
+import { FileText } from "lucide-react";
 
 const CreateEventPage = () => {
   const [events, setEvents] = useState([]);
@@ -103,7 +104,10 @@ const CreateEventPage = () => {
   };
 
   const filteredEvents = events.filter((event) => {
-    if (searchTerm && !event.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+    if (
+      searchTerm &&
+      !event.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
       return false;
     }
     if (filterMonth !== "all") {
@@ -131,7 +135,11 @@ const CreateEventPage = () => {
           setFilterMonth={setFilterMonth}
         />
         {filteredEvents.length === 0 ? (
-          <EmptyState />
+          <EmptyState
+            icon={<FileText size={48} strokeWidth={1.5} />}
+            title="No notices found"
+            message="Create your first announcement"
+          />
         ) : (
           <>
             <EventsTable
