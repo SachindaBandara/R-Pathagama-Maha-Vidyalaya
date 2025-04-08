@@ -6,10 +6,13 @@ import { toast } from 'react-toastify';
 const LogoutButton = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
+  // Get the API URL from environment variables
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleLogout = async () => {
     try {
       // Call the backend logout endpoint
-      await axios.post('http://localhost:5000/api/auth/logout', {}, {
+      await axios.post(`${API_URL}/auth/logout`, {}, {
         withCredentials: true
       });
 
