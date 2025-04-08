@@ -21,8 +21,8 @@ const PageHeader = ({
         onClick={onAddClick}
         className="flex items-center gap-2 px-5 py-3 bg-red-900 hover:bg-red-950 text-white font-medium rounded-xl shadow-lg transition-all"
       >
-        <Plus size={20} />
         {buttonText}
+        <Plus size={20} />
       </motion.button>
     </div>
   );

@@ -1,7 +1,8 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const LogoutButton = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
@@ -11,27 +12,33 @@ const LogoutButton = ({ setIsLoggedIn }) => {
 
   const handleLogout = async () => {
     try {
-      // Call the backend logout endpoint
-      await axios.post(`${API_URL}/auth/logout`, {}, {
-        withCredentials: true
-      });
+      // Call the backend logout endpoint (optional, if your backend supports it)
+      await axios.post(
+        `${API_URL}/auth/logout`,
+        {},
+        {
+          withCredentials: true, // Ensure cookies are sent with the request
+        }
+      );
 
-      // Clear frontend authentication state
-      localStorage.removeItem('token');
+      // Clear the token from cookies
+      Cookies.remove("token", { path: "/" });
+
+      // Update frontend authentication state
       setIsLoggedIn(false);
-      
-      // Show success message
-      toast.success('Logout successful!', {
+
+      toast.success("Logout successful!", {
         position: "top-right",
         autoClose: 2000,
       });
 
-      // Redirect to login page
-      navigate('/', { replace: true });
-
+      // Redirect to the login page
+      navigate("/", { replace: true });
     } catch (error) {
-      console.error('Logout error:', error);
-      toast.error('Logout failed. Please try again.', {
+      console.error("Logout error:", error);
+
+      // Show error message
+      toast.error("Logout failed. Please try again.", {
         position: "top-right",
         autoClose: 3000,
       });

@@ -83,7 +83,9 @@ const CreateNotice = () => {
 
   const handleEdit = (notice) => {
     setTitle(notice.title);
-    setDeadline(notice.deadline);
+    // Extract date part from ISO timestamp
+    const formattedDate = notice.deadline.split('T')[0];
+    setDeadline(formattedDate);
     setPdfLink(notice.pdfLink);
     setEditId(notice._id);
     setShowForm(true);

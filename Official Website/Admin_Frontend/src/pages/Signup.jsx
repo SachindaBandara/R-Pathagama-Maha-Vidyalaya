@@ -47,7 +47,7 @@ const SignUp = () => {
         toast.success('Signup successful! Redirecting to login...', {
           position: "top-right",
           autoClose: 2000,
-          onClose: () => navigate('/login')
+          onClose: () => navigate('/')
         });
       }
     } catch (error) {
