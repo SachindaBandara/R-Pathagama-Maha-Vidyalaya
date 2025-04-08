@@ -1,34 +1,26 @@
-import NoticesTableRows from "./NoticesTableRows";
+import Table from "../Table";
+import NoticesTableRow from "./NoticesTableRows";
 
 const NoticesTable = ({ filteredNotices, handleEdit, handleDelete }) => {
+  const columns = [
+    { key: "title", header: "Title" },
+    { key: "deadline", header: "Deadline" },
+    { key: "pdfLink", header: "PDF Link" },
+    { key: "actions", header: "Actions" },
+  ];
+
   return (
-    <div className="bg-white rounded-sm shadow-sm overflow-hidden">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
-              Title
-            </th>
-            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
-              Deadline
-            </th>
-            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
-              PDF Link
-            </th>
-            <th className="px-6 py-3 text-right text-sm font-medium text-gray-500 uppercase tracking-wider">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          <NoticesTableRows
-            notices={filteredNotices}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-          />
-        </tbody>
-      </table>
-    </div>
+    <Table
+      columns={columns}
+      data={filteredNotices}
+      RowComponent={({ item, onEdit, onDelete }) => (
+        <NoticesTableRow
+          notice={item}
+          handleEdit={onEdit}
+          handleDelete={onDelete}
+        />
+      )}
+    />
   );
 };
 

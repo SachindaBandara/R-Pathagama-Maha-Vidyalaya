@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NoticeHeader from "../components/notices/NoticeHeader";
-import NoticesSearchFilterBar from "../components/notices/SearchFilterBar";
+import NoticesSearchFilterBar from "../components/notices/NoticesSearchFilterBar";
 import NoticesTable from "../components/notices/NoticesTable";
 import EmptyState from "../components/EmptyState";
 import Pagination from "../components/Pagination";

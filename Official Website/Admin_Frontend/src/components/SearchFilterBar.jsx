@@ -1,14 +1,22 @@
 import { Calendar } from "lucide-react";
 
-const SearchFilterBar = ({ searchTerm, setSearchTerm, filterMonth, setFilterMonth }) => {
+const SearchFilterBar = ({
+  placeholder,
+  searchTerm,
+  onSearchChange,
+  filterOptions,
+  filterValue,
+  onFilterChange
+}) => {
   return (
     <div className="mb-8 flex flex-col sm:flex-row gap-4">
+      {/* Search Input */}
       <div className="relative flex-1">
         <input
           type="text"
-          placeholder="Search events..."
+          placeholder={placeholder}
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => onSearchChange(e.target.value)}
           className="w-1/2 pl-10 pr-4 py-3 bg-white rounded-xl border border-gray-200 shadow-sm"
         />
         <svg
@@ -25,15 +33,16 @@ const SearchFilterBar = ({ searchTerm, setSearchTerm, filterMonth, setFilterMont
           />
         </svg>
       </div>
+
+      {/* Filter Select */}
       <select
-        value={filterMonth}
-        onChange={(e) => setFilterMonth(e.target.value)}
+        value={filterValue}
+        onChange={(e) => onFilterChange(e.target.value)}
         className="px-4 py-3 bg-white rounded-xl border border-gray-200 shadow-sm"
       >
-        <option value="all">All</option>
-        {[...Array(12).keys()].map((month) => (
-          <option key={month} value={month}>
-            {new Date(0, month).toLocaleString('default', { month: 'long' })}
+        {filterOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>
