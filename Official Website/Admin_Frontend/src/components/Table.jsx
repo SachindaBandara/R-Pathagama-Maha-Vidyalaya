@@ -9,7 +9,7 @@ const Table = ({ columns, data, RowComponent, onEdit, onDelete }) => {
             {columns.map((col) => (
               <th
                 key={col.key}
-                className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
               >
                 {col.header}
               </th>

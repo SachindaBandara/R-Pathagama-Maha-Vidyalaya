@@ -4,6 +4,7 @@ import NoticesTableRow from "./NoticesTableRows";
 const NoticesTable = ({ filteredNotices, handleEdit, handleDelete }) => {
   const columns = [
     { key: "title", header: "Title" },
+    { key: "postedDate", header: "Posted Date" },
     { key: "deadline", header: "Deadline" },
     { key: "pdfLink", header: "PDF Link" },
     { key: "actions", header: "Actions" },
@@ -20,6 +21,8 @@ const NoticesTable = ({ filteredNotices, handleEdit, handleDelete }) => {
           handleDelete={onDelete}
         />
       )}
+      onEdit={handleEdit}    // Pass edit handler to Table
+      onDelete={handleDelete} // Pass delete handler to Table
     />
   );
 };

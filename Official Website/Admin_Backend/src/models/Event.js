@@ -10,9 +10,9 @@ const eventSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     date: { type: Date, required: true },
+    postedDate: { type: Date, default: Date.now },
     images: [ImageSchema]
   },
-  { timestamps: true }
 );
 
 module.exports = mongoose.model('Event', eventSchema);

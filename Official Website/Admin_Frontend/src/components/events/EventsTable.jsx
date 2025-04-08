@@ -4,6 +4,7 @@ import EventsTableRow from "./EventsTableRows";
 const EventsTable = ({ filteredEvents, handleEdit, handleDelete }) => {
   const columns = [
     { key: "name", header: "Name" },
+    { key: "postedDate", header: "Posted Date" },
     { key: "date", header: "Date" },
     { key: "images", header: "Images" },
     { key: "actions", header: "Actions" },
@@ -20,6 +21,8 @@ const EventsTable = ({ filteredEvents, handleEdit, handleDelete }) => {
           handleDelete={onDelete}
         />
       )}
+      onEdit={handleEdit}    // Pass edit handler to Table
+      onDelete={handleDelete} // Pass delete handler to Table
     />
   );
 };
