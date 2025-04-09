@@ -16,6 +16,7 @@ const userAuth = async (req, res, next) => {
     }
     
     req.admin = admin; // Attach authenticated admin to req.admin
+    req.token = token;
     next(); // Continue execution
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized: Invalid token" });

@@ -1,8 +1,9 @@
-const express = require("express");
 const Admin = require("../models/Admin");
 const bcrypt = require("bcrypt");
 const { signUpValidation } = require("../utils/validation");
-const nodemailer = require("nodemailer");
+const emailjs = require("@emailjs/nodejs");
+const crypto = require("crypto");
+const validator = require("validator");
 
 exports.signup = async (req, res) => {
   try {
@@ -65,45 +66,61 @@ exports.logout = async (req, res) => {
   res.send("Logout Successfully!");
 };
 
-// Create transporter with nodemailer using Gmail service
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
+// Initialize EmailJS with your credentials
+emailjs.init({
+  publicKey: process.env.EMAILJS_PUBLIC_KEY,
+  privateKey: process.env.EMAILJS_PRIVATE_KEY,
 });
 
-// Forgot password endpoint using async/await
 exports.forgotPassword = async (req, res) => {
-  const { adminNumber } = req.body;
-
-  if (!adminNumber) {
-    return res.status(400).json({ message: "Admin number is required" });
-  }
-
   try {
-    // Find admin by admin number
-    const admin = await Admin.findOne({ adminNumber });
-    if (!admin) {
-      return res.status(404).json({ message: "Admin number not found" });
+    const { email } = req.body;
+
+    // Validate email
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
     }
 
-    // Prepare mail options (note: this sends the stored password, which is hashed)
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: admin.email,
-      subject: "Password Recovery",
-      text: `Your password is: ${admin.password}`,
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    // Check if email exists in database
+    const admin = await Admin.findOne({ email: email.toLowerCase() });
+    if (!admin) {
+      return res.status(404).json({ error: "Email not found" });
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    const resetTokenExpiry = Date.now() + 3600000; // 1 hour expiry
+
+    // Save token and expiry to admin document
+    admin.resetPasswordToken = resetToken;
+    admin.resetPasswordExpires = resetTokenExpiry;
+    await admin.save();
+
+    // EmailJS parameters
+    const templateParams = {
+      to_email: admin.email,
+      user_name: admin.username,
+      reset_link: `${process.env.FRONTEND_URL}/reset-password/${resetToken}`,
+      expiry_time: "1 hour",
     };
 
-    // Use promise-based sendMail
-    await transporter.sendMail(mailOptions);
+    // Send email using EmailJS
+    await emailjs.send(
+      process.env.EMAILJS_SERVICE_ID,
+      process.env.EMAILJS_TEMPLATE_ID,
+      templateParams
+    );
 
-    // If the email is sent successfully, respond with success
-    res.status(200).json({ message: "Password sent to your email" });
+    res.status(200).json({
+      message: "Password reset email sent successfully",
+    });
   } catch (error) {
-    console.error("Forgot password error:", error);
-    res.status(500).json({ message: "Error sending email: " + error.message });
+    console.error(error);
+    res.status(500).json({ error: "Failed to send reset email" });
   }
 };
+

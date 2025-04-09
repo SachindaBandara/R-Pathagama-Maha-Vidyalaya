@@ -33,6 +33,12 @@ const adminSchema = new mongoose.Schema(
         }
       },
     },
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpires: {
+      type: Number,
+    },
   },
   {
     timestamps: true,
