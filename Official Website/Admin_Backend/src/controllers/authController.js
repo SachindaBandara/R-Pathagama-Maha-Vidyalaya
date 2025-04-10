@@ -22,11 +22,15 @@ exports.signup = async (req, res) => {
     });
 
     await admin.save();
-    res.status(201).json({ message: "User created successfully" });
-
-  } catch (err) {
-    console.error("Signup Error:", err);
-    res.status(400).json({ error: err.message || "Signup failed" });
+    res.status(201).json({ message: "Admin created successfully" });
+  } catch (error) {
+    if (error.message.includes("Maximum limit of 3 admins reached")) {
+      return res.status(400).json({ message: error.message });
+    }
+    console.error("Error creating admin:", error);
+    res
+      .status(500)
+      .json({ message: "Error creating admin", error: error.message });
   }
 };
 
@@ -130,7 +134,9 @@ exports.resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
 
     if (!token || !newPassword) {
-      return res.status(400).json({ error: "Token and new password are required" });
+      return res
+        .status(400)
+        .json({ error: "Token and new password are required" });
     }
 
     // Validate new password
@@ -169,10 +175,12 @@ exports.resetPassword = async (req, res) => {
 exports.getAllAdmins = async (req, res) => {
   try {
     // Fetch all admins, selecting only username and email fields
-    const admins = await Admin.find({}, 'username email');
+    const admins = await Admin.find({}, "username email");
     res.status(200).json(admins);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching admins', error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching admins", error: error.message });
   }
 };
 
@@ -183,17 +191,19 @@ exports.deleteAdmin = async (req, res) => {
 
     // Validation: Check if ID is provided
     if (!id) {
-      return res.status(400).json({ message: 'Admin ID is required' });
+      return res.status(400).json({ message: "Admin ID is required" });
     }
-    
+
     // Attempt to delete the admin
     const deletedAdmin = await Admin.findByIdAndDelete(id);
     if (!deletedAdmin) {
-      return res.status(404).json({ message: 'Admin not found' });
+      return res.status(404).json({ message: "Admin not found" });
     }
 
-    res.status(200).json({ message: 'Admin deleted successfully' });
+    res.status(200).json({ message: "Admin deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting admin', error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error deleting admin", error: error.message });
   }
 };

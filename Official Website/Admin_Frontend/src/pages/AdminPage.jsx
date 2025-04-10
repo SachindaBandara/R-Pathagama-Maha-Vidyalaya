@@ -47,8 +47,12 @@ const AdminPage = () => {
       setPassword("");
       setShowForm(false);
     } catch (error) {
-      console.error("Error submitting admin:", error);
-      toast.error("Failed to submit admin. Please try again.");
+      console.error("Error submitting admin:", error.response || error.message);
+      if (error.response?.data?.message?.includes("Maximum limit of 3 admins reached")) {
+        toast.error("Maximum limit of 3 admins reached. Delete an existing admin to add a new one.");
+      } else {
+        toast.error("Failed to submit admin: " + (error.response?.data?.message || "Unknown error"));
+      }
     }
   };
 

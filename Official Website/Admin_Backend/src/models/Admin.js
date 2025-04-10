@@ -45,6 +45,26 @@ const adminSchema = new mongoose.Schema(
   }
 );
 
+// Middleware to enforce maximum of 3 admins
+adminSchema.pre("save", async function (next) {
+  const admin = this;
+
+  // Only check limit for new documents (not updates)
+  if (admin.isNew) {
+    try {
+      const adminCount = await mongoose.model("Admin").countDocuments();
+      if (adminCount >= 3) {
+        throw new Error("Maximum limit of 3 admins reached. Cannot add more admins.");
+      }
+      next();
+    } catch (error) {
+      next(error); // Pass the error to the next middleware or save operation
+    }
+  } else {
+    next(); // Skip for updates to existing admins
+  }
+});
+
 adminSchema.methods.getJWT = async function () {
   const admin = this;
   // Create JWT token for each user
