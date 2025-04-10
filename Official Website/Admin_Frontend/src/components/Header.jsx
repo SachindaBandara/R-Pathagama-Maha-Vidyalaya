@@ -44,6 +44,14 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => { // Accept isLoggedIn and set
                   Gallery
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/admins"
+                  className="rounded transition hover:text-yellow-custom"
+                >
+                  Admins
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -98,6 +106,15 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => { // Accept isLoggedIn and set
               <li>
                 <Link
                   to="/gallery"
+                  className="hover:text-yellow-custom"
+                  onClick={toggleMenu}
+                >
+                  Gallery
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/admins"
                   className="hover:text-yellow-custom"
                   onClick={toggleMenu}
                 >

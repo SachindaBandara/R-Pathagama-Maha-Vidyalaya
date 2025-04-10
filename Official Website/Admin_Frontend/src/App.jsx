@@ -6,7 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import Cookies from "js-cookie";
-import ResetPassword from "./pages/ResetPassword";
 
 // Lazy load components to split the code
 const CreateNotice = lazy(() => import("./pages/CreateNotice"));
@@ -15,7 +14,10 @@ const CreateEventPage = lazy(() => import("./pages/CreateEventPage"));
 const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const AdminPage = lazy(() => import("./pages/Adminpage"));
 const ProtectedRoute = lazy(() => import("./utils/ProtectedRoute"));
+
 
 const App = () => {
   // Initialize isLoggedIn based on the presence of the token in cookies
@@ -68,6 +70,7 @@ const App = () => {
         <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
           <Route path="/notice" element={<CreateNotice />} />
           <Route path="/gallery" element={<CreateEventPage />} />
+          <Route path="/admins" element={<AdminPage />} />
         </Route>
 
         {/* Add fallback route for authenticated users */}
