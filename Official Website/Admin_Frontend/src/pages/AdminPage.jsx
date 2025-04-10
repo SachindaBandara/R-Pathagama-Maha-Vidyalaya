@@ -59,19 +59,6 @@ const AdminPage = () => {
     }
   };
 
-  // const handleDelete = async (id) => {
-  //   if (window.confirm("Are you sure you want to delete this admin?")) {
-  //     try {
-  //       await axios.delete(`${API_URL}/auth/admins/${id}`);
-  //       toast.success("Admin deleted successfully!");
-  //       fetchAdmins();
-  //     } catch (error) {
-  //       console.error("Error deleting admin:", error);
-  //       toast.error("Failed to delete admin. Please try again.");
-  //     }
-  //   }
-  // };
-
   const handleDelete = (id) => {
     setAdminIdToDelete(id); // Set the admin ID to delete
     setShowConfirm(true); // Show the confirmation dialog
