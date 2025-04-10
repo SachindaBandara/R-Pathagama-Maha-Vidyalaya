@@ -124,3 +124,44 @@ exports.forgotPassword = async (req, res) => {
   }
 };
 
+// Reset Password Controller (remains largely the same)
+exports.resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    if (!token || !newPassword) {
+      return res.status(400).json({ error: "Token and new password are required" });
+    }
+
+    // Validate new password
+    if (!validator.isStrongPassword(newPassword)) {
+      return res.status(400).json({ error: "Password must be strong" });
+    }
+
+    // Find admin by reset token and check expiry
+    const admin = await Admin.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!admin) {
+      return res.status(400).json({ error: "Invalid or expired reset token" });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update password and clear reset token
+    admin.password = hashedPassword;
+    admin.resetPasswordToken = undefined;
+    admin.resetPasswordExpires = undefined;
+    await admin.save();
+
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+

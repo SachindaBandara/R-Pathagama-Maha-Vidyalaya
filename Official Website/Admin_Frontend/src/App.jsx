@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Cookies from "js-cookie";
+import ResetPassword from "./pages/ResetPassword";
 
 // Lazy load components to split the code
 const CreateNotice = lazy(() => import("./pages/CreateNotice"));
@@ -61,7 +62,8 @@ const App = () => {
           element={<Signup setIsLoggedIn={setIsLoggedIn} />}
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-       
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+
         {/* Protected routes */}
         <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
           <Route path="/notice" element={<CreateNotice />} />
