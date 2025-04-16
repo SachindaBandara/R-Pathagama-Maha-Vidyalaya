@@ -7,6 +7,7 @@ import AdminsTable from "../components/admins/AdminsTable";
 import AdminForm from "../components/admins/AdminForm";
 import Pagination from "../components/Pagination";
 import ConfirmDialog from "../components/ConfirmDialog";
+import Header from "../components/Header";
 
 const AdminPage = () => {
   const [admins, setAdmins] = useState([]);
@@ -86,6 +87,7 @@ const AdminPage = () => {
   return (
     <div className="min-h-screen bg-white p-8 mt-20 font-inter">
       <div className="max-w-7xl mx-auto">
+        <Header/>
         <AdminsHeader setShowForm={setShowForm} />
         <AdminsTable
           filteredAdmins={currentAdmins}

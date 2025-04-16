@@ -1,37 +1,48 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
-import Cookies from "js-cookie";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, clearError } from '../utils/slices/authSlice';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Login = ({ setIsLoggedIn }) => {
+const Login = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberUsername, setRememberUsername] = useState(false);
   const navigate = useNavigate();
-
-  // Get the API URL from environment variables
-  const API_URL = import.meta.env.VITE_API_URL;
+  const dispatch = useDispatch();
+  const { loading, error, isLoggedIn } = useSelector((state) => state.auth);
 
   // Load saved username from localStorage on component mount
   useEffect(() => {
-    const savedUsername = localStorage.getItem("rememberedUsername");
+    const savedUsername = localStorage.getItem('rememberedUsername');
     if (savedUsername) {
       setFormData((prev) => ({ ...prev, username: savedUsername }));
       setRememberUsername(true);
     }
+  }, []);
 
-    const token = Cookies.get("token"); // Get token from cookies
-    if (token) {
-      navigate("/notice");
+  // Handle errors with toast
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'top-right',
+        autoClose: 3000,
+        onClose: () => dispatch(clearError()),
+      });
     }
-  }, [navigate]);
+  }, [error, dispatch]);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/notice', { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,58 +54,23 @@ const Login = ({ setIsLoggedIn }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     if (!formData.username || !formData.password) {
-      toast.error("Please fill in all fields.", {
-        position: "top-center",
+      toast.error('Please fill in all fields.', {
+        position: 'top-center',
         autoClose: 3000,
       });
-      setLoading(false);
       return;
     }
 
-    try {
-      const response = await axios.post(`${API_URL}/auth/login`, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.status === 200) {
-        // Save username to localStorage if "Remember Username" is checked
-        if (rememberUsername) {
-          localStorage.setItem("rememberedUsername", formData.username);
-        } else {
-          localStorage.removeItem("rememberedUsername");
-        }
-
-        setIsLoggedIn(true);
-        toast.success("Login successful! Redirecting...", {
-          position: "top-right",
-          autoClose: 2000,
-          onClose: () => navigate("/notice"),
-        });
-      }
-    } catch (error) {
-      let errorMessage = "Login failed. Please check your credentials.";
-
-      if (error.response) {
-        if (error.response.status === 400) {
-          errorMessage = error.response.data.message || "Invalid credentials";
-        } else if (error.response.status === 500) {
-          errorMessage = "Server error. Please try again later.";
-        }
-      }
-
-      toast.error(errorMessage, {
-        position: "top-right",
-        autoClose: 3000,
-      });
-    } finally {
-      setLoading(false);
+    // Save username to localStorage if "Remember Username" is checked
+    if (rememberUsername) {
+      localStorage.setItem('rememberedUsername', formData.username);
+    } else {
+      localStorage.removeItem('rememberedUsername');
     }
+
+    dispatch(loginUser(formData));
   };
 
   return (
@@ -102,9 +78,7 @@ const Login = ({ setIsLoggedIn }) => {
       <ToastContainer />
 
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-700">
-          Login
-        </h2>
+        <h2 className="text-2xl font-semibold text-center text-gray-700">Login</h2>
         <p className="text-sm text-gray-500 text-center">
           Enter your credentials to access the dashboard
         </p>
@@ -127,7 +101,7 @@ const Login = ({ setIsLoggedIn }) => {
             <label className="block text-gray-700">Password</label>
             <div className="relative">
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-red-900"
                 placeholder="Enter your password"
@@ -140,9 +114,9 @@ const Login = ({ setIsLoggedIn }) => {
                 type="button"
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-500 hover:text-red-800"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </button>
             </div>
 
@@ -202,7 +176,7 @@ const Login = ({ setIsLoggedIn }) => {
                 Logging in...
               </>
             ) : (
-              "Login"
+              'Login'
             )}
           </button>
         </form>

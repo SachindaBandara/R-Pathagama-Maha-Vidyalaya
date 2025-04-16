@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { IoMdClose } from "react-icons/io";
-import School_logo from "../assets/School_white_logo.png";
-import LogoutButton from "./LogoutButton";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { IoMdClose } from 'react-icons/io';
+import { useSelector } from 'react-redux';
+import School_logo from '../assets/School_white_logo.png';
+import LogoutButton from './LogoutButton';
 
-const Header = ({ isLoggedIn, setIsLoggedIn }) => { // Accept isLoggedIn and setIsLoggedIn as props
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -58,7 +60,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => { // Accept isLoggedIn and set
           {/* Right: Logout Button */}
           <div className="flex-1 flex justify-end items-center">
             <div className="hidden sm:block relative z-50">
-              <LogoutButton setIsLoggedIn={setIsLoggedIn} /> {/* Pass setIsLoggedIn to LogoutButton */}
+              <LogoutButton />
             </div>
 
             {/* Mobile Menu Toggle */}
@@ -67,7 +69,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => { // Accept isLoggedIn and set
                 className="cursor-pointer text-white text-3xl"
                 onClick={toggleMenu}
               >
-                {isMenuOpen ? "" : "☰"}
+                {isMenuOpen ? '' : '☰'}
               </label>
             </div>
           </div>
@@ -78,7 +80,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => { // Accept isLoggedIn and set
         {/* Mobile Dropdown Menu */}
         <div
           className={`sm:hidden fixed inset-0 bg-red-custom bg-opacity-95 z-40 flex items-center justify-center transition-transform duration-300 ease-in-out ${
-            isMenuOpen ? "translate-x-0" : "translate-x-full"
+            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           {/* Close Button */}
@@ -118,11 +120,11 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => { // Accept isLoggedIn and set
                   className="hover:text-yellow-custom"
                   onClick={toggleMenu}
                 >
-                  Gallery
+                  Admins
                 </Link>
               </li>
               <li>
-                <LogoutButton setIsLoggedIn={setIsLoggedIn} /> {/* Pass setIsLoggedIn to LogoutButton */}
+                <LogoutButton />
               </li>
             </ul>
           </div>

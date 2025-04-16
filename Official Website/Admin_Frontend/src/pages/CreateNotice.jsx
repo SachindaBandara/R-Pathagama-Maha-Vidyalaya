@@ -10,6 +10,7 @@ import EmptyState from "../components/EmptyState";
 import Pagination from "../components/Pagination";
 import NoticeForm from "../components/notices/NoticeForm";
 import { FileText } from "lucide-react";
+import Header from "../components/Header";
 
 const CreateNotice = () => {
   const [notices, setNotices] = useState([]);
@@ -128,6 +129,7 @@ const CreateNotice = () => {
   return (
     <div className="min-h-screen bg-white p-8 mt-20 font-inter">
       <div className="max-w-7xl mx-auto">
+        <Header/>
         <NoticeHeader setShowForm={setShowForm} />
         <NoticesSearchFilterBar
           searchTerm={searchTerm}

@@ -10,6 +10,7 @@ import EmptyState from "../components/EmptyState";
 import Pagination from "../components/Pagination";
 import EventForm from "../components/events/EventForm";
 import { FileText } from "lucide-react";
+import Header from "../components/Header";
 
 const CreateEventPage = () => {
   const [events, setEvents] = useState([]);
@@ -127,6 +128,7 @@ const CreateEventPage = () => {
   return (
     <div className="min-h-screen bg-white p-8 mt-20 font-inter">
       <div className="max-w-7xl mx-auto">
+        <Header/>
         <EventHeader setShowForm={setShowForm} />
         <SearchFilterBar
           searchTerm={searchTerm}

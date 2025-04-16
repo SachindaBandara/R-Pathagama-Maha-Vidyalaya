@@ -1,12 +1,13 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const ProtectedRoute = ({ isLoggedIn }) => {
+const ProtectedRoute = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
   if (!isLoggedIn) {
-    // Redirect to the login page if the user is not authenticated
     return <Navigate to="/" replace />;
   }
 
-  // Render the child routes if the user is authenticated
   return <Outlet />;
 };
 

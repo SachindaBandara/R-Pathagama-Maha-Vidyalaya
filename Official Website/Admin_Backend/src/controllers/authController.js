@@ -51,6 +51,8 @@ exports.login = async (req, res) => {
       res.cookie("token", token, {
         expires: new Date(Date.now() + 8 * 3600000),
         httpOnly: true,
+        secure: true,
+        sameSite: "strict",
       });
       res.send("Login Successfully!");
     } else {
@@ -63,10 +65,7 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-  res.cookie("token", null, {
-    expires: new Date(Date.now()),
-  });
-
+  res.clearCookie('token');
   res.send("Logout Successfully!");
 };
 
